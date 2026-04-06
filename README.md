@@ -110,7 +110,7 @@ Extends RuleBasedAgent with **confidence scoring** and forced required-KPI inclu
 
 ## 🌐 Live Demo
 
-👉 [Try it on Hugging Face Spaces](https://huggingface.co/spaces/truptibhalekarr/rl-data-analyst)
+👉 [Try it on Hugging Face Spaces](https://huggingface.co/spaces/truptibhalekarr/RL_Data_Analyst)
 
 ---
 
