@@ -1,0 +1,72 @@
+name: rl-data-analyst-env
+version: "1.0.0"
+description: "Reinforcement Learning environment where an agent learns automated data analysis step by step"
+
+environment:
+  type: custom
+  language: python
+  python_version: "3.10"
+
+server:
+  host: "0.0.0.0"
+  port: 7860
+  framework: fastapi
+
+endpoints:
+  reset:
+    method: POST
+    path: /reset
+    description: "Reset the RL environment and return initial state"
+  step:
+    method: POST
+    path: /step
+    description: "Agent takes one action and receives reward"
+  validate:
+    method: POST
+    path: /validate
+    description: "Run full episode and return total score"
+  health:
+    method: GET
+    path: /health
+    description: "Health check endpoint"
+
+tasks:
+  - id: 0
+    name: "Column Classification"
+    description: "Classify dataset columns as numerical, categorical, or datetime"
+    reward_range: [-4.5, 9.5]
+  - id: 1
+    name: "KPI Selection"
+    description: "Select relevant KPIs for the dataset"
+    reward_range: [-1.0, 9.0]
+  - id: 2
+    name: "Chart Selection"
+    description: "Choose best chart types for visualization"
+    reward_range: [-3.0, 6.0]
+  - id: 3
+    name: "Insight Generation"
+    description: "Generate human-readable business insights"
+    reward_range: [-2.5, 6.0]
+
+reward:
+  min: -10.0
+  max: 30.5
+  passing_threshold: 50.0
+
+dataset:
+  name: "Sales Dataset"
+  rows: 30
+  columns: 9
+  file: "dataset.csv"
+
+agents:
+  - name: random
+    description: "Random baseline agent"
+  - name: rule
+    description: "Rule-based agent using pandas dtype inspection"
+  - name: heuristic
+    description: "Heuristic agent with confidence scoring (best performer)"
+  default: heuristic
+
+entry_point: inference.py
+dockerfile: Dockerfile
