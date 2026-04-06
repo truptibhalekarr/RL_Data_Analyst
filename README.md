@@ -1,3 +1,9 @@
+## 🌐 Live Demo
+
+👉 [Try it on Hugging Face Spaces](https://huggingface.co/spaces/truptibhalekarr/RL_Data_Analyst)
+
+---
+
 # 🤖 RL Data Analyst Environment
 
 > A Reinforcement Learning environment where an AI agent learns to perform **automated data analysis** — step by step, just like a human analyst.
@@ -7,6 +13,19 @@
 ## 🎯 What This Project Does
 
 This project converts the **entire data analysis pipeline** into an RL problem. At each step, the agent takes an action, and the environment gives it a reward or penalty based on how good that action was.
+
+---
+
+## 🤖 Why Reinforcement Learning?
+
+Traditional data analysis pipelines are static and rule-based.
+
+This project models data analysis as a **sequential decision-making problem**, where:
+- Each step depends on previous decisions
+- The agent learns through rewards and penalties
+- The goal is to maximize overall analytical quality
+
+This makes the system adaptive and closer to how human analysts think.
 
 ---
 
@@ -24,11 +43,27 @@ This project converts the **entire data analysis pipeline** into an RL problem. 
 ## 🔁 How RL Works Here
 
 **Examples:**
-- ✅ Correct KPI selected → `+1.5` reward
-- ✅ Best chart chosen → `+2.0` reward  
-- ❌ Wrong chart → `-1.0` penalty
-- 🔶 Partial insight → small reward
+- ✅ Correct classification → high reward (~+9)
+- ✅ Correct KPI selection → high reward (~+9)
+- ✅ Good chart choice → moderate reward (~+5)
+- ❌ Wrong decisions → penalty
+- 🔶 Partial insight → smaller reward
 
+---
+
+## 🧠 Environment Design
+
+- **State:** Dataset schema (column names, types, distributions)
+- **Actions:**
+  - Column Classification (numerical / categorical / datetime)
+  - KPI Selection (business metrics)
+  - Chart Selection (bar, line, histogram)
+  - Insight Generation (text output)
+- **Reward System:**
+  - Positive reward for correct decisions
+  - Negative reward for incorrect or irrelevant actions
+  - Final score reflects overall analysis quality
+ 
 ---
 
 ## 🏆 Benchmark Results
@@ -108,11 +143,6 @@ Extends RuleBasedAgent with **confidence scoring** and forced required-KPI inclu
 
 ---
 
-## 🌐 Live Demo
-
-👉 [Try it on Hugging Face Spaces](https://huggingface.co/spaces/truptibhalekarr/RL_Data_Analyst)
-
----
 
 ## 📌 Hackathon Submission
 
