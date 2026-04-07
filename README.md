@@ -1,159 +1,198 @@
+<div align="center">
+
+<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&color=0:6a85b6,50:bac8e0,100:dde1f4&height=180&section=header&text=RL%20Data%20Analyst&fontSize=60&fontColor=ffffff&fontAlignY=42&desc=Reinforcement%20Learning%20for%20Automated%20Data%20Analysis&descAlignY=62&descSize=16&animation=fadeIn" />
+
+<br/>
+
+[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge\&logo=python\&logoColor=white)](https://python.org)
+[![RL](https://img.shields.io/badge/Reinforcement-Learning-blueviolet?style=for-the-badge)]()
+[![Status](https://img.shields.io/badge/Status-Active-6a85b6?style=for-the-badge)]()
+
+<br/>
+
+> *An AI agent that learns to perform end-to-end data analysis — step by step.*
+
+</div>
+
+---
+
 ## 🌐 Live Demo
 
-👉 [Try it on Hugging Face Spaces](https://huggingface.co/spaces/truptibhalekarr/RL_Data_Analyst)
+👉 https://huggingface.co/spaces/truptibhalekarr/RL_Data_Analyst_Agent
 
 ---
 
-# 🤖 RL Data Analyst Environment
+## 🔮 What is RL Data Analyst?
 
-> A Reinforcement Learning environment where an AI agent learns to perform **automated data analysis** — step by step, just like a human analyst.
+**RL Data Analyst** is a custom-built Reinforcement Learning environment where an AI agent learns how to perform **real-world data analysis tasks**.
 
----
+Instead of static pipelines, the agent:
 
-## 🎯 What This Project Does
+* Makes decisions step-by-step
+* Learns from rewards & penalties
+* Optimizes for analytical quality
 
-This project converts the **entire data analysis pipeline** into an RL problem. At each step, the agent takes an action, and the environment gives it a reward or penalty based on how good that action was.
-
----
-
-## 🤖 Why Reinforcement Learning?
-
-Traditional data analysis pipelines are static and rule-based.
-
-This project models data analysis as a **sequential decision-making problem**, where:
-- Each step depends on previous decisions
-- The agent learns through rewards and penalties
-- The goal is to maximize overall analytical quality
-
-This makes the system adaptive and closer to how human analysts think.
+👉 It mimics how a human data analyst thinks.
 
 ---
 
-## 🧩 The 4 Tasks (Steps)
+## ✨ Features
 
-| Step | Task | What Agent Decides |
-|------|------|--------------------|
-| 0 | 📊 Column Classification | numerical / categorical / datetime |
-| 1 | 📈 KPI Selection | total_sales, profit_margin, growth... |
-| 2 | 📉 Chart Selection | bar chart, line chart, histogram... |
-| 3 | 💡 Insight Generation | Human-readable business insights |
-
----
-
-## 🔁 How RL Works Here
-
-**Examples:**
-- ✅ Correct classification → high reward (~+9)
-- ✅ Correct KPI selection → high reward (~+9)
-- ✅ Good chart choice → moderate reward (~+5)
-- ❌ Wrong decisions → penalty
-- 🔶 Partial insight → smaller reward
+| Feature                          | Description                                                        |
+| -------------------------------- | ------------------------------------------------------------------ |
+| 🤖 **RL-based Pipeline**         | Entire data analysis flow modeled as a sequential decision problem |
+| 📊 **Auto Column Understanding** | Detects numerical, categorical, datetime columns                   |
+| 📈 **Smart KPI Selection**       | Identifies business metrics like revenue, growth                   |
+| 📉 **Chart Intelligence**        | Selects best chart type based on data                              |
+| 💡 **Insight Generation**        | Produces human-readable business insights                          |
+| 🧾 **Reward System**             | Scores each step based on correctness                              |
 
 ---
 
-## 🧠 Environment Design
+## 🧩 The 4-Step RL Workflow
 
-- **State:** Dataset schema (column names, types, distributions)
-- **Actions:**
-  - Column Classification (numerical / categorical / datetime)
-  - KPI Selection (business metrics)
-  - Chart Selection (bar, line, histogram)
-  - Insight Generation (text output)
-- **Reward System:**
-  - Positive reward for correct decisions
-  - Negative reward for incorrect or irrelevant actions
-  - Final score reflects overall analysis quality
- 
----
-
-## 🏆 Benchmark Results
-
-| Agent | Avg Score | Result |
-|-------|-----------|--------|
-| 🥇 HeuristicAgent | **95.1%** | ✅ PASS |
-| 🥈 RuleBasedAgent | **95.1%** | ✅ PASS |
-| 🥉 RandomAgent | -6.6% | ❌ FAIL |
-
----
-
-## 📁 Project Structure
-
-rl_data_analyst/
-│
-├── env.py          # 🌍 RL Environment (reset, step, state)
-├── agent.py        # 🤖 3 Agents: Random, RuleBased, Heuristic
-├── grader.py       # 🧾 Reward & grading system
-├── tasks.py        # 📋 Task definitions & expected outputs
-├── main.py         # 🚀 Run and benchmark all agents
-├── dataset.csv     # 📊 Sample sales dataset (30 rows)
-└── requirements.txt
-
----
-
-## 🚀 Quick Start
-```bash
-# 1. Clone the repo
-git clone https://github.com/truptibhalekarr/rl-data-analyst.git
-cd rl-data-analyst
-
-# 2. Install dependencies
-pip install -r requirements.txt
-
-# 3. Run all agents (benchmark)
-python main.py
-
-# 4. Run specific agent
-python main.py --agent heuristic
-
-# 5. Run quietly (summary only)
-python main.py --agent rule --quiet
+```
+Step 0 → Column Classification
+Step 1 → KPI Selection
+Step 2 → Chart Selection
+Step 3 → Insight Generation
 ```
 
 ---
 
-## 🧠 Agent Descriptions
+## 🧠 How RL Works Here
+
+```
+STATE   → Dataset schema (columns, types, distributions)
+ACTION  → Agent decision at each step
+REWARD  → Based on correctness of decision
+GOAL    → Maximize total analysis quality
+```
+
+---
+
+## 🏆 Benchmark Results
+
+| Agent             | Score    | Result |
+| ----------------- | -------- | ------ |
+| 🥇 HeuristicAgent | 95%+     | ✅ PASS |
+| 🥈 RuleBasedAgent | 95%+     | ✅ PASS |
+| 🥉 RandomAgent    | Negative | ❌ FAIL |
+
+---
+
+## 🧠 Agent Types
 
 ### 🎲 RandomAgent
-Picks actions completely randomly. Serves as the **baseline** — shows what happens with zero intelligence.
 
-### 📏 RuleBasedAgent  
-Uses pandas dtype inspection and column name patterns to make **smart, rule-driven decisions**. Scores 95%+.
+Completely random decisions — baseline performance.
+
+### 📏 RuleBasedAgent
+
+Uses dataset patterns and heuristics.
 
 ### 🧠 HeuristicAgent
-Extends RuleBasedAgent with **confidence scoring** and forced required-KPI inclusion. Also logs confidence per step.
+
+Advanced logic + confidence scoring → best performance.
 
 ---
 
 ## 🧪 Sample Output
 
-✅ [0] Column Classification   Reward: +9.50  (100.0%)
-✅ [1] KPI Selection           Reward: +9.00  (100.0%)
-✅ [2] Chart Selection         Reward: +5.00  (83.3%)
-✅ [3] Insight Generation      Reward: +5.50  (91.7%)
-🏆 TOTAL : +29.00 / 30.50 (95.1%) — PASS ✅
+```
+[START] task=Column Classification
+[STEP] step=1 reward=9.5
+[STEP] step=2 reward=9.0
+[STEP] step=3 reward=5.0
+[STEP] step=4 reward=5.5
+[END] task=Insight Generation score=91.7 steps=4
+```
+
+---
+
+## 📁 Project Structure
+
+```
+RL_Data_Analyst/
+│
+├── core/            # Analysis engines
+├── data/            # Dataset
+├── env.py           # RL environment
+├── agent.py         # Agents
+├── grader.py        # Reward system
+├── inference.py     # API + evaluator entrypoint
+├── tasks.py         # Task definitions
+├── dataset.csv      # Sample dataset
+└── requirements.txt
+```
+
+---
+
+## 🚀 Quick Start
+
+```bash
+git clone https://github.com/truptibhalekarr/RL_Data_Analyst
+cd RL_Data_Analyst
+
+pip install -r requirements.txt
+
+python main.py
+```
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Python 3.8+**
-- **Pandas** — dataset handling
-- **NumPy** — numerical operations
-- **Custom RL Environment** — no external RL library needed!
+```python
+stack = {
+    "Language" : "Python 3.10+",
+    "Data"     : "Pandas + NumPy",
+    "RL Env"   : "Custom-built (no external library)",
+    "API"      : "FastAPI",
+    "Deploy"   : "Hugging Face Spaces"
+}
+```
 
 ---
 
+## 🧠 Why This Matters
 
-## 📌 Hackathon Submission
+Traditional pipelines:
+❌ Static
+❌ Rule-based
+❌ Non-adaptive
 
-This project was built for a hackathon focused on building small RL environments with:
-- ✅ Clearly defined tasks
-- ✅ Reward system
-- ✅ Agent evaluation / grading
-- ✅ Real-world problem (data analysis automation)
+RL approach:
+✅ Dynamic
+✅ Learns from feedback
+✅ Generalizes better
+
+👉 This is closer to **next-gen AI data systems**
+
+---
+
+## 📌 Hackathon Context
+
+Built for a hackathon requiring:
+
+* RL environment design
+* Reward logic
+* Task-based evaluation
+* Real-world use case
 
 ---
 
 ## 👩‍💻 Author
 
-Made with ❤️ by **Trupti Bhalekar**
+**Trupti Bhalekar**
+
+* GitHub: https://github.com/truptibhalekarr
+* Hugging Face: https://huggingface.co/truptibhalekarr
+
+---
+
+<div align="center">
+
+⭐ *Star this repo if you liked the project!*
+
+</div>
