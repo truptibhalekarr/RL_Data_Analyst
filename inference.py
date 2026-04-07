@@ -4,7 +4,7 @@ Required by the hackathon evaluator at POST /reset
 """
 
 from unittest import result
-
+from openai import OpenAI
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 import uvicorn
@@ -31,6 +31,10 @@ env = DataAnalystEnv(CSV_PATH)
 agent = make_agent("heuristic")
 current_state = None
 
+client = OpenAI(
+    base_url=os.environ.get("API_BASE_URL"),
+    api_key=os.environ.get("API_KEY")
+)
 
 @app.get("/")
 def root():
@@ -101,6 +105,13 @@ async def step(request: Request):
 
 @app.post("/validate")
 def validate():
+    response = client.chat.completions.create(
+    model=os.environ.get("MODEL_NAME"),
+    messages=[
+        {"role": "user", "content": "Analyze this dataset briefly."}
+    ],
+    max_tokens=10
+)
     try:
         local_env = DataAnalystEnv(CSV_PATH)
         local_agent = make_agent("heuristic")
