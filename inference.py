@@ -3,6 +3,8 @@ inference.py — OpenEnv-compatible FastAPI server
 Required by the hackathon evaluator at POST /reset
 """
 
+from unittest import result
+
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 import uvicorn
@@ -46,6 +48,9 @@ def reset():
     try:
         agent.reset()
         current_state = env.reset()
+
+        print(f"[START] task={current_state.task.name}", flush=True)
+
         return JSONResponse(status_code=200, content={
             "status": "ok",
             "message": "Environment reset successfully",
@@ -81,8 +86,13 @@ async def step(request: Request):
     next_state, reward, done, info = env.step(action)
     agent.update(reward, done)
     current_state = next_state
+    
     result = info["grade_result"]
-    return JSONResponse(status_code=200, content={
+    print(f"[STEP] step={current_state.step} reward={reward}", flush=True)
+
+    if done:
+        print(f"[END] task={result.task_name} score={result.score_pct} steps={current_state.step}", flush=True)
+        return JSONResponse(status_code=200, content={
         "status": "ok", "reward": reward, "done": done,
         "task_name": result.task_name, "score_pct": result.score_pct,
         "passed": result.passed, "feedback": result.feedback,
