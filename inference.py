@@ -152,7 +152,7 @@ if __name__ == "__main__":
         # LLM call(safe)
         try:
             response = client.chat.completions.create(
-                model=os.environ["MODEL_NAME"],
+                model=os.environ.get("MODEL_NAME", "gpt-3.5-turbo"),
                 messages=[
                     {"role": "user", "content": "Test call"}
                 ],
