@@ -86,7 +86,7 @@ async def step(request: Request):
     next_state, reward, done, info = env.step(action)
     agent.update(reward, done)
     current_state = next_state
-    
+
     result = info["grade_result"]
     print(f"[STEP] step={current_state.step} reward={reward}", flush=True)
 
@@ -134,4 +134,28 @@ def env_info():
 
 
 if __name__ == "__main__":
-    print("Running locally. Use: uvicorn inference:app --host 0.0.0.0 --port 7860")
+    try:
+        env = DataAnalystEnv(CSV_PATH)
+        agent = make_agent("heuristic")
+
+        state = env.reset()
+        agent.reset()
+
+        print(f"[START] task={state.task.name}", flush=True)
+
+        step_count = 0
+
+        while not state.done:
+            action = agent.select_action(state)
+            state, reward, done, info = env.step(action)
+            agent.update(reward, done)
+
+            step_count += 1
+            print(f"[STEP] step={step_count} reward={reward}", flush=True)
+
+        result = info["grade_result"]
+
+        print(f"[END] task={result.task_name} score={result.score_pct} steps={step_count}", flush=True)
+
+    except Exception as e:
+        print(f"[ERROR] {str(e)}", flush=True)
