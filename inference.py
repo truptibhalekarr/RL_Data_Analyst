@@ -149,6 +149,16 @@ def env_info():
 
 if __name__ == "__main__":
     try:
+        response = client.chat.completions.create(
+            model=os.environ["MODEL_NAME"],
+            messages=[
+                {"role": "user", "content": "Test call"}
+            ],
+            max_tokens=5
+        )
+
+        print("[LLM CALLED]", flush=True)
+
         env = DataAnalystEnv(CSV_PATH)
         agent = make_agent("heuristic")
 
