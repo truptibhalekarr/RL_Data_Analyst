@@ -105,16 +105,17 @@ async def step(request: Request):
 
 @app.post("/validate")
 def validate():
-    response = client.chat.completions.create(
-        model=os.environ["MODEL_NAME"],
-        messages=[
-        {"role": "user", "content": "Analyze this dataset briefly."}
-        ],
-        max_tokens=10
-    )
-    print("[LLM CALLED]", flush=True)
-
     try:
+        response = client.chat.completions.create(
+            model=os.environ["MODEL_NAME"],
+            messages=[
+                {"role": "user", "content": "Analyze this dataset briefly."}
+            ],
+            max_tokens=10
+            )
+
+        print("[LLM CALLED]", flush=True)
+
         local_env = DataAnalystEnv(CSV_PATH)
         local_agent = make_agent("heuristic")
         state = local_env.reset()
