@@ -32,8 +32,8 @@ agent = make_agent("heuristic")
 current_state = None
 
 client = OpenAI(
-    base_url=os.environ.get("API_BASE_URL"),
-    api_key=os.environ.get("API_KEY")
+    base_url=os.environ["API_BASE_URL"],
+    api_key=os.environ["API_KEY"]
 )
 
 @app.get("/")
@@ -106,12 +106,14 @@ async def step(request: Request):
 @app.post("/validate")
 def validate():
     response = client.chat.completions.create(
-    model=os.environ.get("MODEL_NAME"),
-    messages=[
+        model=os.environ["MODEL_NAME"],
+        messages=[
         {"role": "user", "content": "Analyze this dataset briefly."}
-    ],
-    max_tokens=10
-)
+        ],
+        max_tokens=10
+    )
+    print("[LLM CALLED]", flush=True)
+
     try:
         local_env = DataAnalystEnv(CSV_PATH)
         local_agent = make_agent("heuristic")
