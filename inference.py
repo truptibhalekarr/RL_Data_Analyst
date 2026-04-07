@@ -31,10 +31,16 @@ env = DataAnalystEnv(CSV_PATH)
 agent = make_agent("heuristic")
 current_state = None
 
-client = OpenAI(
-    base_url=os.environ["API_BASE_URL"],
-    api_key=os.environ["API_KEY"]
-)
+base_url = os.environ.get("API_BASE_URL")
+api_key = os.environ.get("API_KEY")
+
+if base_url and api_key:
+    client = OpenAI(
+        base_url=base_url,
+        api_key=api_key
+    )
+else:
+    client = None
 
 @app.get("/")
 def root():
@@ -107,7 +113,7 @@ async def step(request: Request):
 def validate():
     try:
         response = client.chat.completions.create(
-            model=os.environ["MODEL_NAME"],
+            model = os.environ.get("MODEL_NAME", "gpt-3.5-turbo"),
             messages=[
                 {"role": "user", "content": "Analyze this dataset briefly."}
             ],
@@ -150,18 +156,20 @@ def env_info():
 if __name__ == "__main__":
     try:
         # LLM call(safe)
-        try:
-            response = client.chat.completions.create(
-                model=os.environ.get("MODEL_NAME", "gpt-3.5-turbo"),
-                messages=[
-                    {"role": "user", "content": "Test call"}
-                ],
-                max_tokens=5
-            )
-
-            print("[LLM CALLED]", flush=True)
-        except Exception as e:
-            print(f"[LLM ERROR] {str(e)}", flush=True)
+        if client:
+            try:
+                response = client.chat.completions.create(
+                    model=os.environ.get("MODEL_NAME", "gpt-3.5-turbo"),
+                    messages=[
+                        {"role": "user", "content": "Test call"}
+                    ],
+                    max_tokens=5
+                )
+                print("[LLM CALLED]", flush=True)
+            except Exception as e:
+                print(f"[LLM ERROR] {str(e)}", flush=True)
+        else:
+            print("[LLM SKIPPED - NO API]", flush=True)    
 
         env = DataAnalystEnv(CSV_PATH)
         agent = make_agent("heuristic")
