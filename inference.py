@@ -132,22 +132,8 @@ def env_info():
 #   [STEP]  step=<N> reward=<float>
 #   [END]   task=<NAME> score=<float> steps=<N>
 
-def run_validator():
-    # Optional LLM call
-    if client:
-        try:
-            client.chat.completions.create(
-                model=os.environ.get("MODEL_NAME", "gpt-3.5-turbo"),
-                messages=[{"role": "user", "content": "Hello"}],
-                max_tokens=5,
-            )
-            print("[LLM CALLED]", flush=True)
-        except Exception as e:
-            print(f"[LLM ERROR] {e}", flush=True)
-    else:
-        print("[LLM SKIPPED] No API_BASE_URL set", flush=True)
-
     # ── Run each task as its own episode block ─────────────────────────────
+def run_validator():
     from tasks import ALL_TASKS, get_task
     from grader import grade
 
@@ -182,25 +168,15 @@ def run_validator():
         result = info["grade_result"]
 
         # Print STEP block
-        print(f"[STEP] step={step_count} reward={round(reward, 4)}", flush=True)
-
+        print(f"[STEP] step={step_count} reward={reward}", flush=True)
         # Print END block
         print(
-            f"[END] task={task_name} score={round(result.score_pct, 2)} steps={step_count}",
+            f"[END] task={task_name} score={result.score_pct} steps={step_count}",
             flush=True
         )
 
     print("[DONE] All tasks completed", flush=True)
 
 
-if __name__ == "__main__":
-    import uvicorn
-
-    # If VALIDATOR_MODE env var is set, or no PORT → run validator
-    validator_mode = os.environ.get("VALIDATOR_MODE", "").lower() in ("1", "true", "yes")
-    port           = os.environ.get("PORT", "")
-
-    if validator_mode or not port:
-        run_validator()
-    else:
-        uvicorn.run("inference:app", host="0.0.0.0", port=int(port), reload=False)
+# FORCE execution (important for Scaler)
+run_validator()
