@@ -7,11 +7,6 @@ environment:
   language: python
   python_version: "3.10"
 
-server:
-  host: "0.0.0.0"
-  port: 7860
-  framework: fastapi
-
 endpoints:
   reset:
     method: POST
@@ -68,5 +63,5 @@ agents:
     description: "Heuristic agent with confidence scoring (best performer)"
   default: heuristic
 
-entry_point: inference.py
+entry_point: python inference.py
 dockerfile: Dockerfile
